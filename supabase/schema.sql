@@ -1,0 +1,1 @@
+-- SQL schema to initialize Supabase project
