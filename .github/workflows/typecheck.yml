@@ -1,0 +1,29 @@
+name: TypeScript Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  typecheck:
+    name: Run tsc on all packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm install
+
+      - name: Type check all workspaces
+        run: pnpm -r exec tsc --noEmit
