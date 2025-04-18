@@ -1,0 +1,27 @@
+{
+  "name": "mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "App.tsx",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "build": "expo export"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.27.0",
+    "@supabase/supabase-js": "^2.39.3",
+    "dotenv": "^16.5.0",
+    "expo-auth-session": "~6.0.0",
+    "expo-constants": "~17.0.8",
+    "expo-crypto": "~14.0.2",
+    "expo-web-browser": "~14.0.2",
+    "react": "18.3.1",
+    "react-native": "0.76.9"
+  },
+  "devDependencies": {
+    "expo": "~52.0.46"
+  }
+}
