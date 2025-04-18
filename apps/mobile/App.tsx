@@ -1,34 +1,40 @@
 // apps/mobile/App.tsx
-import 'react-native-url-polyfill/auto';
 
-import { useEffect } from 'react';
-import { Button, Text, View } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
-import * as AuthSession from 'expo-auth-session';
+import 'react-native-url-polyfill/auto';
+import { Button, View, Text } from 'react-native';
 import { supabase } from './supabase';
+import * as AuthSession from 'expo-auth-session';
+import * as WebBrowser from 'expo-web-browser';
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function App() {
-  const redirectUri = AuthSession.makeRedirectUri({
-    useProxy: true, // required for Expo Go
-  });
+  const handleLogin = async () => {
+    const redirectUri = AuthSession.makeRedirectUri({
+      scheme: 'vireau',
+      useProxy: true,
+    });
 
-  const signInWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: redirectUri,
       },
     });
-    if (error) console.error('OAuth error:', error);
-    else console.log('Redirecting to:', data.url);
+
+    if (error) {
+      console.error('OAuth error:', error.message);
+    } else if (data?.url) {
+      // Open the Supabase auth URL in the browser
+      const result = await AuthSession.startAsync({ authUrl: data.url });
+      console.log('OAuth result:', result);
+    }
   };
 
   return (
-    <View style={{ marginTop: 100, alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Welcome to Vireau</Text>
-      <Button title="Sign in with Google" onPress={signInWithGoogle} />
+      <Button title="Login with Google" onPress={handleLogin} />
     </View>
   );
 }
