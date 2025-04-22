@@ -1,7 +1,7 @@
 import { View, Text, Button, Image, StyleSheet } from 'react-native';
-import { supabase } from './supabase';
+import { supabase } from '../supabase';
 import { useEffect, useState } from 'react';
-import { useThemeStyles } from './theme/useThemeStyles';
+import { useThemeStyles } from '../theme/useThemeStyles';
 
 export default function HomeScreen({ onLogout }: { onLogout: () => void }) {
   const [user, setUser] = useState<any>(null);

@@ -5,8 +5,8 @@ import * as WebBrowser from 'expo-web-browser';
 import * as AuthSession from 'expo-auth-session';
 import { supabase } from './supabase';
 import { useThemeStyles } from './theme/useThemeStyles';
-import HomeScreen from './HomeScreen';
-import SplashScreen from './SplashScreen';
+import HomeScreen from './screens/HomeScreen';
+import SplashScreen from './screens/SplashScreen';
 import { saveSession, restoreSession, clearSession } from './supabaseSession';
 
 WebBrowser.maybeCompleteAuthSession();
