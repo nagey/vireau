@@ -23,7 +23,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
   }, []);
 
   return (
-    <Animated.View style={[styles.container, styles.darkMode, opacity]}>
+    <Animated.View style={[styles.container, styles.darkMode, {opacity}]}>
       {styles.isDark ? (
         <VireauLogoDark width={180} height={180} />
       ) : (
