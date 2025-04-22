@@ -2,7 +2,6 @@ import { useColorScheme } from 'react-native';
 
 export function useThemeStyles() {
   const scheme = useColorScheme();
-console.log(scheme)
   const isDark = scheme === 'dark';
 
   const colors = {
@@ -16,6 +15,17 @@ console.log(scheme)
   return {
     isDark,
     colors,
+    darkMode: {
+      backgroundColor: isDark ? '#001F3F': '#ffffff'
+    },
+    appHome: {
+      flex: 1
+    },
+    appLogin: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
     container: {
       flex: 1,
       backgroundColor: colors.background,

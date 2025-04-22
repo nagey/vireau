@@ -1,12 +1,13 @@
 import { useColorScheme, StyleSheet, View, Animated } from 'react-native';
 import { useEffect, useRef } from 'react';
+import { useThemeStyles } from '~/theme/useThemeStyles';
 import VireauLogoLight from 'ui/LogoLight.svg';
 import VireauLogoDark from 'ui/LogoDark.svg';
 
 export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
   const opacity = useRef(new Animated.Value(1)).current;
-  const isDark = useColorScheme() === 'dark';
-
+  const styles = { ...useThemeStyles(), ...localStyles};
+  
   useEffect(() => {
     const timeout = setTimeout(() => {
       Animated.timing(opacity, {
@@ -22,8 +23,8 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
   }, []);
 
   return (
-    <Animated.View style={[styles.container, { backgroundColor: isDark ? '#001F3F': '#ffffff', opacity }]}>
-      {isDark ? (
+    <Animated.View style={[styles.container, styles.darkMode, opacity]}>
+      {styles.isDark ? (
         <VireauLogoDark width={180} height={180} />
       ) : (
         <VireauLogoLight width={180} height={180} />
@@ -32,7 +33,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
   );
 }
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',

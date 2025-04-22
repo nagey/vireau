@@ -94,13 +94,13 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.appHome}>
       {session ? (
         <HomeScreen onLogout={handleLogout} />
       ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Welcome to Vireau</Text>
-          <Button title="Login with Google" onPress={handleLogin} />
+        <View style={[styles.appLogin, styles.darkMode]}>
+          <Text style={styles.text}>Welcome to Vireau</Text>
+          <Button style={styles.button} title="Login with Google" onPress={handleLogin} />
         </View>
       )}
       {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
