@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Vireau logo – navy elements on white (pixel‑perfect mask) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="870" height="252" viewBox="0 0 870 252">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#FFFFFF"/>
+
+  <!-- Define a luminance mask using the master dark logo image -->
+  <defs>
+    <!-- NOTE: Ensure the PNG asset ships with this SVG -->
+    <mask id="logo-mask" maskUnits="userSpaceOnUse" mask-type="luminance">
+      <image href="Vireau Logo - Dark.png" width="870" height="252" preserveAspectRatio="xMidYMid meet"/>
+    </mask>
+  </defs>
+
+  <!-- Navy fill revealed only where the light shapes exist in the source image -->
+  <rect width="100%" height="100%" fill="#002147" mask="url(#logo-mask)"/>
+
+  <!-- Orange hull accent – slightly enlarged to cover any navy halo -->
+  <!-- Original points were 550,219 612,219 581,233 -->
+  <polygon points="548,217 614,217 581,237" fill="#E69D63"/>
+</svg>

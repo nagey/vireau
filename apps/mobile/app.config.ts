@@ -7,6 +7,7 @@ export default {
     version: '1.0.0',
     sdkVersion: '52.0.0',
     scheme: 'vireau',
+    userInterfaceStyle: 'automatic',
     ios: {
       bundleIdentifier: 'co.vireau',
       "infoPlist": {

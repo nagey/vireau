@@ -29,9 +29,11 @@
     "expo-web-browser": "~14.0.2",
     "react": "18.3.1",
     "react-native": "0.76.9",
+    "react-native-svg": "^15.11.2",
     "react-native-url-polyfill": "^2.0.0"
   },
   "devDependencies": {
-    "expo": "~52.0.46"
+    "expo": "~52.0.46",
+    "react-native-svg-transformer": "^1.5.0"
   }
 }

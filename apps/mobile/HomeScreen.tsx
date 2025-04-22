@@ -1,10 +1,12 @@
 import { View, Text, Button, Image, StyleSheet } from 'react-native';
 import { supabase } from './supabase';
 import { useEffect, useState } from 'react';
+import { useThemeStyles } from './theme/useThemeStyles';
 
 export default function HomeScreen({ onLogout }: { onLogout: () => void }) {
   const [user, setUser] = useState<any>(null);
-
+  const styles = useThemeStyles();
+console.log(styles)
   useEffect(() => {
     const fetchProfile = async () => {
       const { data: { user }, error } = await supabase.auth.getUser();
@@ -20,7 +22,7 @@ export default function HomeScreen({ onLogout }: { onLogout: () => void }) {
       {user?.user_metadata?.avatar_url && (
         <Image
           source={{ uri: user.user_metadata.avatar_url }}
-          style={styles.avatar}
+          style={localStyles.avatar}
         />
       )}
       <Text style={styles.title}>Vireau Home</Text>
@@ -29,24 +31,13 @@ export default function HomeScreen({ onLogout }: { onLogout: () => void }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 80,
-    paddingHorizontal: 24,
-    alignItems: 'center',
-  },
+const localStyles = StyleSheet.create({
   avatar: {
     width: 48,
     height: 48,
     borderRadius: 24,
     position: 'absolute',
-    top: 40,
+    top: 45,
     left: 20,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 20,
   },
 });

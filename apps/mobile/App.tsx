@@ -4,13 +4,20 @@ import { View, Text, Button } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import * as AuthSession from 'expo-auth-session';
 import { supabase } from './supabase';
+import { useThemeStyles } from './theme/useThemeStyles';
 import HomeScreen from './HomeScreen';
+import SplashScreen from './SplashScreen';
 import { saveSession, restoreSession, clearSession } from './supabaseSession';
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function App() {
   const [session, setSession] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showSplash, setShowSplash] = useState(true);
+
+  const styles = useThemeStyles();
+
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -26,6 +33,8 @@ export default function App() {
           setSession(newSession);
         }
       });
+
+      setIsLoading(false);
 
       return () => {
         listener.subscription.unsubscribe();
@@ -84,14 +93,17 @@ export default function App() {
     setSession(null);
   };
 
-  if (session) {
-    return <HomeScreen onLogout={handleLogout} />;
-  }
-
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Welcome to Vireau</Text>
-      <Button title="Login with Google" onPress={handleLogin} />
+    <View style={styles.container}>
+      {session ? (
+        <HomeScreen onLogout={handleLogout} />
+      ) : (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text>Welcome to Vireau</Text>
+          <Button title="Login with Google" onPress={handleLogin} />
+        </View>
+      )}
+      {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
     </View>
   );
 }
