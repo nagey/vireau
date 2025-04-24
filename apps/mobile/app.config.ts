@@ -7,6 +7,7 @@ export default {
     version: '1.0.0',
     sdkVersion: '52.0.0',
     scheme: 'vireau',
+    icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',
     ios: {
       bundleIdentifier: 'co.vireau',
