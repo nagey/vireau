@@ -5,8 +5,8 @@ import * as WebBrowser from 'expo-web-browser';
 import * as AuthSession from 'expo-auth-session';
 import { supabase } from './supabase';
 import { useThemeStyles } from './theme/useThemeStyles';
-import HomeScreen from './screens/HomeScreen';
 import SplashScreen from './screens/SplashScreen';
+import AppNavigator from './navigation/AppNavigator';
 import { saveSession, restoreSession, clearSession } from './supabaseSession';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -96,7 +96,7 @@ export default function App() {
   return (
     <View style={styles.appHome}>
       {session ? (
-        <HomeScreen onLogout={handleLogout} />
+        <AppNavigator />
       ) : (
         <View style={[styles.appLogin, styles.darkMode]}>
           <Text style={styles.text}>Welcome to Vireau</Text>
