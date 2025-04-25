@@ -22,5 +22,10 @@ export default {
         projectId: 'f07c7922-1dba-4f2f-8af1-ff8a062654a7'
       }
     },
+    "updates": {
+      "runtimeVersion":  {
+        "policy": "sdkVersion"
+      },
+    },
   },
 };
