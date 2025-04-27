@@ -1,6 +1,6 @@
 // app/mobile/components/HeaderBar.tsx
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useThemeStyles } from '~/theme/useThemeStyles';
 import { useProfileContext } from '~/providers/ProfileProvider';
 
@@ -10,13 +10,15 @@ interface HeaderBarProps {
 
 export default function HeaderBar({ title }: HeaderBarProps) {
   const s = useThemeStyles();
-  const { avatarUrl } = useProfileContext();
+  const { avatarUrl, logout } = useProfileContext();
 
   return (
     <View style={s.header}>
       <Text style={s.headerText}>{title}</Text>
       {avatarUrl ? (
-        <Image source={{ uri: avatarUrl }} style={s.avatar} />
+        <TouchableOpacity onPress={logout}>
+          <Image source={{ uri: avatarUrl }} style={s.avatar} />
+        </TouchableOpacity>
       ) : (
         <View style={[s.avatar, { backgroundColor: '#ccc' }]} />
       )}
