@@ -9,6 +9,9 @@ export default {
     scheme: 'vireau',
     icon: './assets/icon.png',
     userInterfaceStyle: 'automatic',
+    runtimeVersion: {
+      "policy": "sdkVersion"
+    },
     ios: {
       bundleIdentifier: 'co.vireau',
       "infoPlist": {
