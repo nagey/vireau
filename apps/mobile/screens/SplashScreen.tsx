@@ -84,6 +84,6 @@ const localStyles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    transform: [{ translateY: -80 }],
+    transform: [{ translateY: -75 }],
   },
 });
