@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../supabase';
 import { format } from 'date-fns';
 import { useThemeStyles } from '../theme/useThemeStyles';
+import HeaderBar from '~/HeaderBar';
 import VireauLogo from '../../../packages/ui/IconLight.svg';
 
 interface Regatta {
@@ -38,15 +39,7 @@ export default function ExploreScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* Page Title Bar */}
-      <View style={s.header}>
-        <Text style={s.headerText}>Explore</Text>
-        <Image
-          source={{ uri: 'https://placekitten.com/100/100' }}
-          style={s.avatar}
-        />
-      </View>
-
+      <HeaderBar title="Explore" />
       {/* Search + Filter Bar */}
       <View style={s.searchContainer}>
         <View style={s.searchBar}>

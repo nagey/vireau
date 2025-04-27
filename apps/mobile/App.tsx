@@ -8,6 +8,7 @@ import { useThemeStyles } from './theme/useThemeStyles';
 import SplashScreen from './screens/SplashScreen';
 import AppNavigator from './navigation/AppNavigator';
 import { saveSession, restoreSession, clearSession } from './supabaseSession';
+import { ProfileProvider } from './providers/ProfileProvider';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -96,7 +97,9 @@ export default function App() {
   return (
     <View style={styles.appHome}>
       {session ? (
-        <AppNavigator />
+        <ProfileProvider>
+          <AppNavigator />
+        </ProfileProvider>
       ) : (
         <View style={[styles.appLogin, styles.darkMode]}>
           <Text style={styles.text}>Welcome to Vireau</Text>
