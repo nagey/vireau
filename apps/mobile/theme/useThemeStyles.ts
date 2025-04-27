@@ -162,7 +162,7 @@ export function useThemeStyles() {
     loginSubtitle: {
       color: colors.secondaryText, // use your secondary text color
       fontSize: 16,
-      marginBottom: 32,
+      marginBottom: 24,
     },
     loginButton: {
       flexDirection: 'row',
@@ -178,15 +178,83 @@ export function useThemeStyles() {
       elevation: 2,
     },
     googleIcon: {
-      width: 24,
-      height: 24,
+      width: 32,
+      height: 32,
       marginRight: 12,
     },
+    googleLoginButton: {
+      backgroundColor: isDark ? '#000000' : '#ffffff',
+      borderColor: isDark ? '#ffffff' : '#000000',
+      borderWidth: 1,
+      height: 50,
+      borderRadius: 9999,
+      paddingHorizontal: 24,
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      maxWidth: 320,
+      alignSelf: 'center',
+      position: 'relative', // Important
+    },
+    googleIconContainer: {
+      position: 'absolute',
+      left: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 32,
+      height: 32,
+    },
+    googleTextWrapper: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    googleLoginButtonText: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: isDark ? '#ffffff' : '#333333',
+      textAlign: 'center',
+      paddingLeft: 38, // ✅ Adjusted padding to accommodate the icon
+    },   
     loginButtonText: {
       fontSize: 16,
       color: '#333', // dark text on light button
       fontWeight: '500',
     },
-    
+    appleLoginButton: {
+      backgroundColor: isDark ? '#ffffff' : '#000000',
+      height: 50,
+      borderRadius: 8,
+      paddingHorizontal: 32, // ✅ Wider padding to balance visual weight
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      maxWidth: 320,
+      alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 4,
+      elevation: 2,
+    },    
+    appleInnerContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    appleGlyph: {
+      fontSize: 30,
+      fontWeight: '600',
+      color: isDark ? '#000000' : '#ffffff',
+      marginRight: 6, // ✅ Tighter spacing
+      lineHeight: 32, // keep consistent height with fontSize
+    },
+    appleLoginButtonText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: isDark ? '#000000' : '#ffffff',
+      letterSpacing: 0, // ✅ Tight spacing for better visual
+    },
   };
 }

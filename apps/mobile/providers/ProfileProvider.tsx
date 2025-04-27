@@ -105,7 +105,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
     fetchProfile();
   }, [session]);
 
-  const login = async () => {
+  const login = async (provider: 'google' | 'apple') => {
     setAuthLoading(true);
 
     try {
@@ -116,7 +116,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
       });
 
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
+        provider,
         options: { redirectTo: redirectUri },
       });
 

@@ -1,6 +1,7 @@
 // app/mobile/App.tsx
+
 import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View } from 'react-native';
 import { useThemeStyles } from './theme/useThemeStyles';
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -18,29 +19,34 @@ export default function App() {
 function AppContent() {
   const styles = useThemeStyles();
   const { session, loading, login } = useProfileContext();
-  const [splashVisible, setSplashVisible] = useState(true);
+  const [splashFinished, setSplashFinished] = useState(false);
+  const [loginScreenReady, setLoginScreenReady] = useState(false);
 
   const handleSplashFinish = () => {
-    setSplashVisible(false);
+    setSplashFinished(true);
   };
 
-  console.log(loading, splashVisible, session)
-  if (loading || splashVisible) {
-    return (
-      <View style={styles.appHome}>
-        <SplashScreen onFinish={handleSplashFinish} />
-      </View>
-    );
-  }
-  if (!session) {
-    return (
-      <LoginScreen login={login} />
-    );
-  }
+  const handleLoginScreenReady = () => {
+    setLoginScreenReady(true);
+  };
+
+  const showSplash = !splashFinished;
+  const startSplashFade = loginScreenReady && !splashFinished && !loading;
 
   return (
-    <View style={styles.appHome}>
-      <AppNavigator />
+    <View style={{ flex: 1 }}>
+      {session ? (
+        <AppNavigator />
+      ) : (
+        <LoginScreen login={login} onReady={handleLoginScreenReady} />
+      )}
+
+      {showSplash && (
+        <SplashScreen
+          onFinish={handleSplashFinish}
+          startFade={startSplashFade}
+        />
+      )}
     </View>
   );
 }
