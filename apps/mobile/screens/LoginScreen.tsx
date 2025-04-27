@@ -7,7 +7,7 @@ import GoogleIconLight from '~/assets/login/google-light.svg';
 import GoogleIconDark from '~/assets/login/google-dark.svg';
 
 
-export default function LoginScreen(login): JSX.Element {
+export default function LoginScreen({ login }): JSX.Element {
     const styles = useThemeStyles();
 
     return (
