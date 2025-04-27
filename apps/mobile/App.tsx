@@ -1,112 +1,46 @@
-import 'react-native-url-polyfill/auto';
-import { useEffect, useState } from 'react';
+// app/mobile/App.tsx
+import React, { useState } from 'react';
 import { View, Text, Button } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
-import * as AuthSession from 'expo-auth-session';
-import { supabase } from './supabase';
 import { useThemeStyles } from './theme/useThemeStyles';
 import SplashScreen from './screens/SplashScreen';
+import LoginScreen from './screens/LoginScreen';
 import AppNavigator from './navigation/AppNavigator';
-import { saveSession, restoreSession, clearSession } from './supabaseSession';
-import { ProfileProvider } from './providers/ProfileProvider';
-
-WebBrowser.maybeCompleteAuthSession();
+import { ProfileProvider, useProfileContext } from './providers/ProfileProvider';
 
 export default function App() {
-  const [session, setSession] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [showSplash, setShowSplash] = useState(true);
+  return (
+    <ProfileProvider>
+      <AppContent />
+    </ProfileProvider>
+  );
+}
 
+function AppContent() {
   const styles = useThemeStyles();
+  const { session, loading, login } = useProfileContext();
+  const [splashVisible, setSplashVisible] = useState(true);
 
-
-  useEffect(() => {
-    const initializeAuth = async () => {
-      // Try restoring session from SecureStore
-      const restoredSession = await restoreSession();
-      if (restoredSession) {
-        setSession(restoredSession);
-      }
-
-      // Listen for live auth state changes (optional)
-      const { data: listener } = supabase.auth.onAuthStateChange((event, newSession) => {
-        if (event !== 'INITIAL_SESSION') {
-          setSession(newSession);
-        }
-      });
-
-      setIsLoading(false);
-
-      return () => {
-        listener.subscription.unsubscribe();
-      };
-    };
-
-    initializeAuth();
-  }, []);
-
-  const handleLogin = async () => {
-    const redirectUri = AuthSession.makeRedirectUri({
-      scheme: 'vireau',
-      path: 'auth/callback',
-      useProxy: false
-    });
-
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: redirectUri }
-    });
-
-    if (error) {
-      console.error('OAuth error:', error);
-      return;
-    }
-
-    const result = await WebBrowser.openAuthSessionAsync(data.url, redirectUri);
-
-    if (result.type === 'success' && result.url) {
-      const url = new URL(result.url);
-      const params = new URLSearchParams(url.hash.substring(1));
-
-      const access_token = params.get('access_token');
-      const refresh_token = params.get('refresh_token');
-
-      if (access_token && refresh_token) {
-        const { data: sessionData, error: setError } = await supabase.auth.setSession({
-          access_token,
-          refresh_token
-        });
-
-        if (setError) {
-          console.error('Failed to set session:', setError);
-        } else {
-          console.log('✅ Session set manually:', sessionData);
-          setSession(sessionData.session);
-          await saveSession(access_token, refresh_token);
-        }
-      }
-    }
+  const handleSplashFinish = () => {
+    setSplashVisible(false);
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    await clearSession();
-    setSession(null);
-  };
+  console.log(loading, splashVisible, session)
+  if (loading || splashVisible) {
+    return (
+      <View style={styles.appHome}>
+        <SplashScreen onFinish={handleSplashFinish} />
+      </View>
+    );
+  }
+  if (!session) {
+    return (
+      <LoginScreen login={login} />
+    );
+  }
 
   return (
     <View style={styles.appHome}>
-      {session ? (
-        <ProfileProvider>
-          <AppNavigator />
-        </ProfileProvider>
-      ) : (
-        <View style={[styles.appLogin, styles.darkMode]}>
-          <Text style={styles.text}>Welcome to Vireau</Text>
-          <Button style={styles.button} title="Login with Google" onPress={handleLogin} />
-        </View>
-      )}
-      {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
+      <AppNavigator />
     </View>
   );
 }

@@ -3,6 +3,19 @@ import { supabase } from './supabase';
 
 const ACCESS_TOKEN_KEY = 'sb-access-token';
 const REFRESH_TOKEN_KEY = 'sb-refresh-token';
+const AVATAR_URL_KEY = 'supabase_avatar_url';
+
+export async function saveAvatarUrl(url: string) {
+  await SecureStore.setItemAsync(AVATAR_URL_KEY, url);
+}
+
+export async function restoreAvatarUrl() {
+  return await SecureStore.getItemAsync(AVATAR_URL_KEY);
+}
+
+export async function clearAvatarUrl() {
+  await SecureStore.deleteItemAsync(AVATAR_URL_KEY);
+}
 
 export async function saveSession(access_token: string, refresh_token: string) {
   await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, access_token);

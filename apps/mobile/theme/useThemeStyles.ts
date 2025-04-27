@@ -141,5 +141,52 @@ export function useThemeStyles() {
       shadowOpacity: 0.3,
       shadowRadius: 4,
     },
+    logoContainer: {
+      marginBottom: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },    
+    centerContent: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 60,
+      paddingHorizontal: 24,
+    },
+    loginTitle: {
+      color: colors.text, // dark/light automatic
+      fontSize: 28,
+      fontWeight: 'bold',
+      marginTop: 5,
+      marginBottom: 8, // tighter to subtitle
+    },
+    loginSubtitle: {
+      color: colors.secondaryText, // use your secondary text color
+      fontSize: 16,
+      marginBottom: 32,
+    },
+    loginButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: isDark ? '#ffffff' : '#eeeeee',
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderRadius: 9999, // PILLED button!
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    googleIcon: {
+      width: 24,
+      height: 24,
+      marginRight: 12,
+    },
+    loginButtonText: {
+      fontSize: 16,
+      color: '#333', // dark text on light button
+      fontWeight: '500',
+    },
+    
   };
 }
