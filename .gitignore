@@ -17,3 +17,4 @@ apps/mobile/.env.local
 apps/mobile/build/
 apps/mobile/build-output-ios/
 apps/mobile/build-output-android/
+apps/mobile/.expo/devices.json
