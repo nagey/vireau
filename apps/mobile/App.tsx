@@ -1,4 +1,6 @@
 // app/mobile/App.tsx
+import { styled, version as nwVer } from 'nativewind';
+console.log('NW version', nwVer, 'styled typeof', typeof styled);
 
 import React, { useState } from 'react';
 import { View } from 'react-native';

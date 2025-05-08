@@ -1,13 +1,15 @@
 // app/mobile/screens/ExploreScreen.tsx
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Image, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { supabase } from '../supabase';
 import { format } from 'date-fns';
 import { useThemeStyles } from '../theme/useThemeStyles';
 import HeaderBar from '~/HeaderBar';
 import VireauLogo from '../../../packages/ui/IconLight.svg';
+import { ModalCard } from '~/components/ui/ModalCard';
+import { QuickRaceContent } from '~/screens/QuickRaceScreen';
 
 interface Regatta {
   id: number;
@@ -17,6 +19,8 @@ interface Regatta {
 }
 
 export default function ExploreScreen() {
+  const [showQuickRace, setShowQuickRace] = useState(false);
+ 
   const [regattas, setRegattas] = useState<Regatta[]>([]);
   const [search, setSearch] = useState('');
   const s = useThemeStyles();
@@ -75,9 +79,15 @@ export default function ExploreScreen() {
         )}
       />
 
-      <TouchableOpacity style={s.fab}>
+      <TouchableOpacity onPress={() => setShowQuickRace(true)} style={s.fab}>
         <Ionicons name="add" size={24} color="white" />
       </TouchableOpacity>
+      {/* Quick‑Race modal ------------------------------------------- */}
+      <ModalCard
+        visible={showQuickRace}
+        onClose={() => setShowQuickRace(false)}>
+        <QuickRaceContent />
+      </ModalCard>
     </View>
   );
 }
