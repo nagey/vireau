@@ -40,6 +40,7 @@
     "nativewind": "^4.1.23",
     "react": "18.3.1",
     "react-native": "0.76.9",
+    "react-native-css-interop": "^0.1.18",
     "react-native-gesture-handler": "^2.20.2",
     "react-native-modal": "14.0.0-rc.1",
     "react-native-reanimated": "^3.16.7",
