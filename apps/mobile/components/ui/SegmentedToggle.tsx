@@ -32,7 +32,11 @@ export function SegmentedToggle<T extends string | number>({
               selected && 'bg-vireau-navy',
             )}
             onPress={() => onChange(v)}>
-            <Text className={cn('font-semibold text-gray-900', selected && 'text-white')}>
+            <Text
+              className={cn(
+                'text-base font-medium text-gray-900',
+                selected && 'text-white'
+              )}>
               {label}
             </Text>
           </Pressable>

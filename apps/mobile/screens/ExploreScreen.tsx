@@ -9,7 +9,7 @@ import { useThemeStyles } from '../theme/useThemeStyles';
 import HeaderBar from '~/HeaderBar';
 import VireauLogo from '../../../packages/ui/IconLight.svg';
 import { ModalCard } from '~/components/ui/ModalCard';
-import { QuickRaceContent } from '~/screens/QuickRaceScreen';
+import QuickRaceContent from '~/screens/QuickRaceScreen';
 
 interface Regatta {
   id: number;

@@ -1,34 +1,58 @@
 import React, { ReactNode } from 'react';
-import { View, Pressable } from 'react-native';
+import { View, Pressable, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 
-interface ModalCardProps {
+interface Props {
   visible: boolean;
   onClose?: () => void;
   children: ReactNode;
-  /** extra Tailwind classes for the card itself */
-  className?: string;
 }
 
-export const ModalCard: React.FC<ModalCardProps> = ({
-  visible,
-  onClose,
-  children,
-  className = '',
-}) => (
+export const ModalCard: React.FC<Props> = ({ visible, onClose, children }) => (
   <Modal
     isVisible={visible}
-    onBackdropPress={onClose}
+    backdropOpacity={0.4}
     animationIn="slideInUp"
     animationOut="slideOutDown"
-    backdropOpacity={0.4}
     useNativeDriver
-    /** This component isn’t css‑interop aware → use plain style */
-    style={{ margin: 0, justifyContent: 'flex-end' }}>
-    {/* tap‑outside to dismiss */}
-    <Pressable className="flex-1" onPress={onClose} />
-    <View className={`bg-white rounded-t-3xl p-6 shadow-xl ${className}`}>
+    onBackdropPress={onClose}
+    style={styles.modal}>
+    <Pressable style={{ flex: 1 }} onPress={onClose} />
+
+    <View style={styles.card}>
+      {/* grab handle */}
+      <View style={styles.handleContainer}>
+        <View style={styles.handle} />
+      </View>
       {children}
     </View>
   </Modal>
 );
+
+const styles = StyleSheet.create({
+  modal: { margin: 0, justifyContent: 'flex-end' },
+  card: {
+    width: '100%',
+    height: '88%',            // sits just under the Dynamic Island
+    backgroundColor: '#FFF',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 24,
+    paddingBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  handleContainer: {
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  handle: {
+    width: 36,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#D1D5DB',
+  },
+});
