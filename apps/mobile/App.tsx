@@ -1,4 +1,5 @@
 // app/mobile/App.tsx
+import "./global.css"
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useThemeStyles } from './theme/useThemeStyles';
@@ -6,7 +7,6 @@ import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import AppNavigator from './navigation/AppNavigator';
 import { ProfileProvider, useProfileContext } from './providers/ProfileProvider';
-import "./global.css"
 
 export default function App() {
   return (
