@@ -33,12 +33,12 @@ const styles = StyleSheet.create({
   modal: { margin: 0, justifyContent: 'flex-end' },
   card: {
     width: '100%',
-    height: '88%',            // sits just under the Dynamic Island
+    height: '93%',            // sits just under the Dynamic Island
     backgroundColor: '#FFF',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingHorizontal: 24,
-    paddingBottom: 12,
+    paddingBottom: 30,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.06,

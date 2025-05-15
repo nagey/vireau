@@ -1,43 +1,37 @@
-import React from 'react';
-import { View, Pressable, Text } from 'react-native';
-import { cn } from 'utils/cn';
+import React from "react";
+import { View, Pressable, Text } from "react-native";
 
-export interface Segment<T extends string | number> {
+export type SegmentedOption = {
   label: string;
-  value: T;
-}
+  value: string | number;
+};
 
-interface SegmentedToggleProps<T extends string | number> {
-  segments: Segment<T>[];
-  value: T;
-  onChange: (v: T) => void;
+type Props = {
+  options: SegmentedOption[];
+  selected: string | number;
+  onSelect: (val: string | number) => void;
   className?: string;
-}
+};
 
-export function SegmentedToggle<T extends string | number>({
-  segments,
-  value,
-  onChange,
-  className,
-}: SegmentedToggleProps<T>) {
+export function SegmentedToggle({
+  options,
+  selected,
+  onSelect,
+  className = "",
+}: Props) {
   return (
-    <View className={cn('flex-row bg-gray-100 rounded-xl overflow-hidden', className)}>
-      {segments.map(({ label, value: v }, idx) => {
-        const selected = v === value;
+    <View className={`flex-row bg-gray-100 rounded-xl p-1 ${className}`}>
+      {options.map((option, idx) => {
+        // Use strict equality so '5' !== 5
+        const isSelected = option.value === selected;
         return (
           <Pressable
-            key={idx}
-            className={cn(
-              'flex-1 py-3 items-center',
-              selected && 'bg-vireau-navy',
-            )}
-            onPress={() => onChange(v)}>
-            <Text
-              className={cn(
-                'text-base font-medium text-gray-900',
-                selected && 'text-white'
-              )}>
-              {label}
+            key={option.value}
+            onPress={() => onSelect(option.value)}
+            className={`flex-1 py-2 rounded-lg mx-1 ${isSelected ? 'bg-vireau-navy' : 'bg-white'}`}
+          >
+            <Text className={`text-center font-bold ${isSelected ? 'text-white' : 'text-vireau-navy'}`}>
+              {option.label}
             </Text>
           </Pressable>
         );

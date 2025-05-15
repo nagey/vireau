@@ -32,7 +32,6 @@ export default function QuickRaceScreen() {
         <Text className="text-xl font-semibold text-vireau-navy mb-5">
           Quick Race
         </Text>
-
         {/* Input pill */}
         <View className="flex-row items-center bg-gray-100 rounded-xl px-4 py-3 mb-5">
           <Ionicons name="add" size={18} color="#6B7280" />
@@ -79,13 +78,13 @@ export default function QuickRaceScreen() {
 
         {/* Countdown selector */}
         <SegmentedToggle
-          segments={[
+          options={[
             { label: '3 min', value: 3 },
             { label: '4 min', value: 4 },
             { label: '5 min', value: 5 },
           ]}
-          value={countdown ?? (0 as any)}
-          onChange={(v) => setCountdown(v as 3 | 4 | 5)}
+          selected={countdown ?? (0 as any)}
+          onSelect={(v) => setCountdown(v as 3 | 4 | 5)}
           className="mb-8"
         />
 
