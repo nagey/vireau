@@ -8,8 +8,7 @@ import { format } from 'date-fns';
 import { useThemeStyles } from '../theme/useThemeStyles';
 import HeaderBar from '~/HeaderBar';
 import VireauLogo from '../../../packages/ui/IconLight.svg';
-import { ModalCard } from '~/components/ui/ModalCard';
-import QuickRaceContent from '~/screens/QuickRaceScreen';
+
 
 interface Regatta {
   id: number;
@@ -19,8 +18,8 @@ interface Regatta {
 }
 
 export default function ExploreScreen() {
-  const [showQuickRace, setShowQuickRace] = useState(false);
- 
+  const navigation = useNavigation();
+
   const [regattas, setRegattas] = useState<Regatta[]>([]);
   const [search, setSearch] = useState('');
   const s = useThemeStyles();
@@ -79,15 +78,9 @@ export default function ExploreScreen() {
         )}
       />
 
-      <TouchableOpacity onPress={() => setShowQuickRace(true)} style={s.fab}>
+      <TouchableOpacity onPress={() => navigation.navigate('QuickRace')} style={s.fab}>
         <Ionicons name="add" size={24} color="white" />
       </TouchableOpacity>
-      {/* Quick‑Race modal ------------------------------------------- */}
-      <ModalCard
-        visible={showQuickRace}
-        onClose={() => setShowQuickRace(false)}>
-        <QuickRaceContent />
-      </ModalCard>
     </View>
   );
 }

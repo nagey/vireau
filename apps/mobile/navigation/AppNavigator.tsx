@@ -7,6 +7,7 @@ import ExploreScreen from '../screens/ExploreScreen';
 import RaceScreen from '../screens/RaceScreen';
 import OrganizeScreen from '../screens/OrganizeScreen';
 import SailScreen from '../screens/SailScreen';
+import QuickRaceScreen from '~/screens/QuickRaceScreen';
 import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -42,6 +43,7 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Main" component={MainTabs} />
+        <Stack.Screen name="QuickRace" component={QuickRaceScreen} options={{ presentation: 'modal' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,6 +8,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SegmentedToggle } from '~/components/ui/SegmentedToggle';
@@ -18,9 +19,14 @@ export default function QuickRaceScreen() {
   const [boats, setBoats] = useState<string[]>([]);
   const [countdown, setCountdown] = useState<3 | 4 | 5 | null>(null);
 
-  const ready = countdown && boats.length >= 2;
+  const ready = (countdown && boats.length >= 2);
 
   return (
+    <View style={styles.card}>
+    {/* grab handle */}
+    <View style={styles.handleContainer}>
+      <View style={styles.handle} />
+    </View>  
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={{ flex: 1 }}>
@@ -30,7 +36,7 @@ export default function QuickRaceScreen() {
         contentContainerStyle={{ flexGrow: 1 }}>
         {/* Heading */}
         <Text className="text-xl font-semibold text-vireau-navy mb-5">
-          Quick Race
+          Quick Race
         </Text>
         {/* Input pill */}
         <View className="flex-row items-center bg-gray-100 rounded-xl px-4 py-3 mb-5">
@@ -103,5 +109,33 @@ export default function QuickRaceScreen() {
         </Pressable>
       </ScrollView>
     </KeyboardAvoidingView>
+    </View>
   );
 }
+const styles = StyleSheet.create({
+  modal: { margin: 0, justifyContent: 'flex-end' },
+  card: {
+    width: '100%',
+    height: '93%',            // sits just under the Dynamic Island
+    backgroundColor: '#FFF',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 24,
+    paddingBottom: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  handleContainer: {
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  handle: {
+    width: 36,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#D1D5DB',
+  },
+});
