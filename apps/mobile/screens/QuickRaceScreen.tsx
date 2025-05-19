@@ -115,7 +115,7 @@ export default function QuickRaceScreen() {
           disabled={!ready}
           className={cn(
             'py-4 rounded-xl items-center',
-            ready ? 'bg-vireau-orange shadow' : 'bg-vireau-orange/40',
+            ready ? 'bg-vireau-orange' : 'bg-vireau-orange/40',
           )}
           onPress={() => ready && handleStartCountdown()}
         >
