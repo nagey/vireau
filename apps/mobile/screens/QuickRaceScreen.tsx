@@ -13,6 +13,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { SegmentedToggle } from '~/components/ui/SegmentedToggle';
 import { cn } from '~/utils/cn';
+import { useQuickRaceCreator } from '~/hooks/useQuickRaceCreator';
+
 
 export default function QuickRaceScreen() {
   const [boatText, setBoatText] = useState('');
@@ -20,7 +22,21 @@ export default function QuickRaceScreen() {
   const [countdown, setCountdown] = useState<3 | 4 | 5 | null>(null);
 
   const ready = (countdown && boats.length >= 2);
+  const { createQuickRace, loading } = useQuickRaceCreator();
 
+  async function handleStartCountdown() {
+    console.log('Start race', { boats, countdown })
+    try {
+      await createQuickRace(boats, countdown!, (regattaId) => {
+        // Navigate, show success, etc.
+        alert('Quick Race created! Regatta ID: ' + regattaId);
+        // navigation.navigate('Regatta', { regattaId });
+      });
+    } catch (err: any) {
+      alert('Error creating Quick Race: ' + (err?.message || err));
+    }
+  }
+  
   return (
     <View style={styles.card}>
     {/* grab handle */}
@@ -101,7 +117,7 @@ export default function QuickRaceScreen() {
             'py-4 rounded-xl items-center',
             ready ? 'bg-vireau-orange shadow' : 'bg-vireau-orange/40',
           )}
-          onPress={() => ready && console.log('Start race', { boats, countdown })}
+          onPress={() => ready && handleStartCountdown()}
         >
           <Text className="text-white font-semibold text-base">
             Start Countdown
