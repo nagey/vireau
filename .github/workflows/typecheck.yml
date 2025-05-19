@@ -17,13 +17,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
-          cache: 'pnpm'
+          node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
         run: |
           corepack enable
-          pnpm install
+          npm install
 
       - name: Type check all workspaces
-        run: pnpm -r exec tsc --noEmit
+        run: npm -r exec tsc --noEmit
