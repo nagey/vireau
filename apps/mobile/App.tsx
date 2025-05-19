@@ -3,6 +3,7 @@ import "./global.css"
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useThemeStyles } from './theme/useThemeStyles';
+import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import AppNavigator from './navigation/AppNavigator';
@@ -34,19 +35,21 @@ function AppContent() {
   const startSplashFade = loginScreenReady && !splashFinished && !loading;
 
   return (
-    <View style={{ flex: 1 }}>
-      {session ? (
-        <AppNavigator />
-      ) : (
-        <LoginScreen login={login} onReady={handleLoginScreenReady} />
-      )}
+    <NavigationContainer>
+      <View style={{ flex: 1 }}>
+        {session ? (
+          <AppNavigator />
+        ) : (
+          <LoginScreen login={login} onReady={handleLoginScreenReady} />
+        )}
 
-      {showSplash && (
-        <SplashScreen
-          onFinish={handleSplashFinish}
-          startFade={startSplashFade}
-        />
-      )}
-    </View>
+        {showSplash && (
+          <SplashScreen
+            onFinish={handleSplashFinish}
+            startFade={startSplashFade}
+          />
+        )}
+      </View>
+    </NavigationContainer>
   );
 }

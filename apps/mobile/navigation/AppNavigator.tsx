@@ -1,6 +1,5 @@
 // app/mobile/navigation/AppNavigator.tsx
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ExploreScreen from '../screens/ExploreScreen';
@@ -40,12 +39,10 @@ function MainTabs() {
 
 export default function AppNavigator() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Main" component={MainTabs} />
-        <Stack.Screen name="QuickRace" component={QuickRaceScreen} options={{ presentation: 'modal' }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Main" component={MainTabs} />
+    <Stack.Screen name="QuickRace" component={QuickRaceScreen} options={{ presentation: 'modal' }} />
+  </Stack.Navigator>
   );
 }
 
