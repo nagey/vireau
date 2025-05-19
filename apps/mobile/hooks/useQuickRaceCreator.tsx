@@ -24,7 +24,7 @@ export function useQuickRaceCreator() {
       const { data: regatta, error: regattaErr } = await supabase
         .from('regattas')
         .insert([
-          { name: regattaName, is_public: false, isQuickRace: true }
+          { name: regattaName, is_public: false, isQuickRace: true, start_date: new Date().toISOString(), end_date: new Date().toISOString() }
         ])
         .select()
         .single();
@@ -60,20 +60,18 @@ export function useQuickRaceCreator() {
 
       // 4. Create timer
       const startTime = new Date(Date.now() + (countdown * 60 * 1000)).toISOString();
-
+      const timersToInsert = boatIds.map((boatId) => ({
+        race_id: raceId,
+        boat_id: boatId,
+        start_time: startTime,
+      }));
       const { data: timerData, error: timerErr } = await supabase
         .from('timers')
-        .insert([
-          {
-            race_id: raceId,
-            start_time: startTime,
-          }
-        ])
-        .select()
-        .single();
+        .insert(timersToInsert)
+        .select();
 
       if (timerErr || !timerData) throw timerErr || new Error('Failed to create timer.');
-      timerId = timerData.id;
+      // timerId = timerData.id;
 
       if (onSuccess) onSuccess(regattaId);
 
