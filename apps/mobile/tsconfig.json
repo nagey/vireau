@@ -1,6 +1,11 @@
 {
   "extends": "../../packages/tsconfig/tsconfig.expo.json",
   "compilerOptions": {
+    "target": "esnext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
       "ui/*": [

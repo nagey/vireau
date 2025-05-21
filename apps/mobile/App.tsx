@@ -8,11 +8,16 @@ import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import AppNavigator from './navigation/AppNavigator';
 import { ProfileProvider, useProfileContext } from './providers/ProfileProvider';
+import { DatabaseProvider } from './providers/DatabaseProvider';
 
 export default function App() {
   return (
     <ProfileProvider>
-      <AppContent />
+      <DatabaseProvider>
+        <NavigationContainer>
+          <AppContent />
+        </NavigationContainer>
+      </DatabaseProvider>
     </ProfileProvider>
   );
 }
@@ -35,21 +40,19 @@ function AppContent() {
   const startSplashFade = loginScreenReady && !splashFinished && !loading;
 
   return (
-    <NavigationContainer>
-      <View style={{ flex: 1 }}>
-        {session ? (
-          <AppNavigator />
-        ) : (
-          <LoginScreen login={login} onReady={handleLoginScreenReady} />
-        )}
+    <View style={{ flex: 1 }}>
+      {session ? (
+        <AppNavigator />
+      ) : (
+        <LoginScreen login={login} onReady={handleLoginScreenReady} />
+      )}
 
-        {showSplash && (
-          <SplashScreen
-            onFinish={handleSplashFinish}
-            startFade={startSplashFade}
-          />
-        )}
-      </View>
-    </NavigationContainer>
+      {showSplash && (
+        <SplashScreen
+          onFinish={handleSplashFinish}
+          startFade={startSplashFade}
+        />
+      )}
+    </View>
   );
 }

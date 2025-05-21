@@ -28,5 +28,22 @@ export default {
         projectId: 'f07c7922-1dba-4f2f-8af1-ff8a062654a7'
       }
     },
+    plugins: [
+      [
+        "expo-build-properties",
+        {
+          ios: {
+            extraPods: [
+              {
+                name: "simdjson",
+                configurations: ["Debug", "Release"],
+                path: "../node_modules/@nozbe/simdjson",
+                modular_headers: true
+              }
+            ]
+          }
+        }
+      ]
+    ],
   },
 };
