@@ -1,77 +1,92 @@
+// apps/mobile/hooks/useQuickRaceCreator.tsx
 import { useState } from 'react';
-import { supabase } from '~/supabase';
+import { useDatabase } from '~/providers/DatabaseProvider'; // <-- Use the hook you created
 import { useProfileContext } from '~/providers/ProfileProvider';
+import uuid from 'react-native-uuid';
+
+const uuidv4 = uuid.v4;
 
 export function useQuickRaceCreator() {
+  const database = useDatabase(); // Get WatermelonDB instance from context
   const { session, profile } = useProfileContext();
   const [loading, setLoading] = useState(false);
 
-  async function createQuickRace(boats: string[], countdown: number, onSuccess?: (regattaId: number) => void) {
+  async function createQuickRace(boats: string[], countdown: number, onSuccess?: (regattaId: string) => void) {
     setLoading(true);
 
-    // IDs for potential cleanup
-    let regattaId: number | null = null;
-    let raceId: number | null = null;
-    let boatIds: number[] = [];
-    let timerId: number | null = null;
+    let regattaId: string | null = null;
+    let raceId: string | null = null;
+    let boatIds: string[] = [];
+    let timerIds: string[] = [];
 
     try {
       const timestamp = Date.now();
       const username = profile?.username || session?.user?.email?.split('@')[0] || 'anon';
       const regattaName = `QuickRace-${username}-${timestamp}`;
 
-      // 1. Create regatta
-      const { data: regatta, error: regattaErr } = await supabase
-        .from('regattas')
-        .insert([
-          { name: regattaName, is_public: false, isQuickRace: true, start_date: new Date().toISOString(), end_date: new Date().toISOString() }
-        ])
-        .select()
-        .single();
+      const regattasCollection = database.get('regattas');
+      const racesCollection = database.get('races');
+      const boatsCollection = database.get('boats');
+      const timersCollection = database.get('timers');
 
-      if (regattaErr || !regatta) throw regattaErr || new Error('Failed to create regatta.');
-      regattaId = regatta.id;
+      // 1. Create regatta
+      regattaId = uuidv4();
+      await database.write(async () => {
+        await regattasCollection.create(r => {
+          r._raw.id = regattaId!;
+          r.name = regattaName;
+          r.public = false;
+          r.isQuickRace = true;
+          r.start_date = timestamp;
+          r.end_date = timestamp;
+          r.created_at = timestamp;
+          r.updated_at = timestamp;
+        });
+      });
 
       // 2. Create race
-      const { data: race, error: raceErr } = await supabase
-        .from('races')
-        .insert([
-          { regatta_id: regattaId, race_number: 1 }
-        ])
-        .select()
-        .single();
-
-      if (raceErr || !race) throw raceErr || new Error('Failed to create race.');
-      raceId = race.id;
+      raceId = uuidv4();
+      await database.write(async () => {
+        await racesCollection.create(r => {
+          r._raw.id = raceId!;
+          r.regatta_id = regattaId!;
+          r.number = 1;
+          r.created_at = timestamp;
+          r.updated_at = timestamp;
+        });
+      });
 
       // 3. Create boats
-      const boatRows = boats.map((boat_name) => ({
-        regatta_id: regattaId,
-        name: boat_name,
-      }));
+      for (const boat_name of boats) {
+        const boatId = uuidv4();
+        boatIds.push(boatId);
+        await database.write(async () => {
+          await boatsCollection.create(b => {
+            b._raw.id = boatId;
+            b.regatta_id = regattaId!;
+            b.name = boat_name;
+            b.created_at = timestamp;
+            b.updated_at = timestamp;
+          });
+        });
+      }
 
-      const { data: boatsData, error: boatsErr } = await supabase
-        .from('boats')
-        .insert(boatRows)
-        .select();
-
-      if (boatsErr) throw boatsErr;
-      boatIds = boatsData?.map((b: any) => b.id) || [];
-
-      // 4. Create timer
-      const startTime = new Date(Date.now() + (countdown * 60 * 1000)).toISOString();
-      const timersToInsert = boatIds.map((boatId) => ({
-        race_id: raceId,
-        boat_id: boatId,
-        start_time: startTime,
-      }));
-      const { data: timerData, error: timerErr } = await supabase
-        .from('timers')
-        .insert(timersToInsert)
-        .select();
-
-      if (timerErr || !timerData) throw timerErr || new Error('Failed to create timer.');
-      // timerId = timerData.id;
+      // 4. Create timers
+      const startTime = timestamp + countdown * 60 * 1000;
+      for (const boatId of boatIds) {
+        const timerId = uuidv4();
+        timerIds.push(timerId);
+        await database.write(async () => {
+          await timersCollection.create(t => {
+            t._raw.id = timerId;
+            t.race_id = raceId!;
+            t.boat_id = boatId;
+            t.time = startTime;
+            t.created_at = timestamp;
+            t.updated_at = timestamp;
+          });
+        });
+      }
 
       if (onSuccess) onSuccess(regattaId);
 
@@ -79,18 +94,24 @@ export function useQuickRaceCreator() {
 
     } catch (err: any) {
       // CLEANUP: delete anything that succeeded
-      if (timerId) {
-        await supabase.from('timers').delete().eq('id', timerId);
-      }
-      if (boatIds.length > 0) {
-        await supabase.from('boats').delete().in('id', boatIds);
-      }
-      if (raceId) {
-        await supabase.from('races').delete().eq('id', raceId);
-      }
-      if (regattaId) {
-        await supabase.from('regattas').delete().eq('id', regattaId);
-      }
+      await database.write(async () => {
+        for (const timerId of timerIds) {
+          const timer = await database.get('timers').find(timerId).catch(() => null);
+          if (timer) await timer.destroyPermanently();
+        }
+        for (const boatId of boatIds) {
+          const boat = await database.get('boats').find(boatId).catch(() => null);
+          if (boat) await boat.destroyPermanently();
+        }
+        if (raceId) {
+          const race = await database.get('races').find(raceId).catch(() => null);
+          if (race) await race.destroyPermanently();
+        }
+        if (regattaId) {
+          const regatta = await database.get('regattas').find(regattaId).catch(() => null);
+          if (regatta) await regatta.destroyPermanently();
+        }
+      });
       throw err;
     } finally {
       setLoading(false);
