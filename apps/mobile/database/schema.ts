@@ -3,13 +3,14 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb';
 
 export const vireauSchema = appSchema({
-  version: 1,
+  version: 2,
   tables: [
     tableSchema({
       name: 'regattas',
       columns: [
         { name: 'name', type: 'string' },
         { name: 'public', type: 'boolean', isOptional: true },
+        { name: 'is_quick_race', type: 'boolean', isOptional: true },
         { name: 'image', type: 'string', isOptional: true },
         { name: 'start_date', type: 'number', isOptional: true }, // unix timestamp
         { name: 'end_date', type: 'number', isOptional: true },

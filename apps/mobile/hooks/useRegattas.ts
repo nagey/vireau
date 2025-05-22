@@ -11,7 +11,7 @@ export function useRegattas() {
     const regattasCollection = database.get('regattas');
     // Observe for real-time updates
     const subscription = regattasCollection
-      .query(Q.sortBy('start_date', Q.desc))
+      .query(Q.sortBy('start_date', Q.desc), Q.where('is_quick_race', false))
       .observe()
       .subscribe((results) => {
         setRegattas(results);

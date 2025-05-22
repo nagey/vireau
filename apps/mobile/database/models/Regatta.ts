@@ -16,6 +16,8 @@ export default class Regatta extends Model {
   @field('location') location!: string | null;
   @field('created_at') createdAt!: number | null;
   @field('updated_at') updatedAt!: number | null;
+  @field('is_quick_race') isQuickRace!: boolean;
+
 
   // Relations
   @children('boats') boats!: Boat[];
