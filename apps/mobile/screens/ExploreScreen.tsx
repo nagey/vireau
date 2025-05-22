@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import { useThemeStyles } from '../theme/useThemeStyles';
 import HeaderBar from '~/HeaderBar';
 import VireauLogo from '../../../packages/ui/IconLight.svg';
-
+import { useRegattas } from '~/hooks/useRegattas';
 
 interface Regatta {
   id: number;
@@ -19,22 +19,10 @@ interface Regatta {
 
 export default function ExploreScreen() {
   const navigation = useNavigation();
+  const { regattas, loading } = useRegattas();
 
-  const [regattas, setRegattas] = useState<Regatta[]>([]);
   const [search, setSearch] = useState('');
   const s = useThemeStyles();
-
-  useEffect(() => {
-    const fetchRegattas = async () => {
-        const { data, error } = await supabase
-        .from('regattas')
-        .select('*')
-        .order('start_date');
-      if (!error) setRegattas(data);
-    };
-
-    fetchRegattas();
-  }, []);
 
   const filtered = regattas.filter(r =>
     r.name.toLowerCase().includes(search.toLowerCase())
