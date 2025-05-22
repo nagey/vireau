@@ -14,4 +14,16 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    'text-center',
+    'font-bold',
+    'font-semibold',
+    'rounded-lg',
+    'rounded-xl',
+    'rounded-2xl',
+    'bg-vireau-navy',
+    'text-vireau-navy',
+    'bg-vireau-orange',
+    'text-vireau-orange',
+    ],
 };

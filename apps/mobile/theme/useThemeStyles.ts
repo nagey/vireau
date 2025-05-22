@@ -66,7 +66,7 @@ export function useThemeStyles() {
       paddingTop: 56,
       paddingHorizontal: 16,
       paddingBottom: 12,
-      backgroundColor: colors.primary,
+      // backgroundColor: colors.primary,
     },
     headerText: {
       color: '#ffffff',

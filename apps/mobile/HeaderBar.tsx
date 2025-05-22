@@ -14,7 +14,7 @@ export default function HeaderBar({ title }: HeaderBarProps) {
   const { avatarUrl, logout } = useProfileContext();
 
   return (
-    <View style={s.header}>
+    <View style={s.header} className="bg-vireau-navy">
       <Text style={s.headerText}>{title}</Text>
       {avatarUrl ? (
         <TouchableOpacity onPress={logout}>
