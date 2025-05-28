@@ -20,6 +20,7 @@ WebBrowser.maybeCompleteAuthSession();
 interface ProfileContextProps {
   session: any;
   avatarUrl: string | null;
+  profile: any;
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
@@ -27,6 +28,7 @@ interface ProfileContextProps {
 
 const ProfileContext = createContext<ProfileContextProps>({
   session: null,
+  profile: null,
   avatarUrl: null,
   loading: true,
   login: async () => {},
@@ -315,9 +317,9 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
   }, [session]);
   
-
+  const profile = session?.user;
   return (
-    <ProfileContext.Provider value={{ session, avatarUrl, loading, login, logout }}>
+    <ProfileContext.Provider value={{ session, profile, avatarUrl, loading, login, logout }}>
       {children}
     </ProfileContext.Provider>
   );
